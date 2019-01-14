@@ -22,6 +22,7 @@ public class BasicPracticeTwo {
         JavaRDD<Integer> rdd3 = jsc.parallelize(data3, 3);
 
         // TODO add your code here
+
         jsc.stop();
     }
 }
