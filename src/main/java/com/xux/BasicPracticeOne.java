@@ -20,7 +20,7 @@ public class BasicPracticeOne {
 
         List<Integer> result = new ArrayList();
         for(int i = 100; i <= 1000; i++) result.add(i);
-        JavaRDD<Integer> input = jsc.parallelize(result,3);
+        JavaRDD<Integer> input = jsc.parallelize(result,7);
 
         input.cache();
 
