@@ -27,7 +27,7 @@ public class xuxiangWordCount {
         SparkConf sparkConf = new SparkConf();
 
         sparkConf.setAppName("xuxiangStudy");
-        sparkConf.setMaster("local[*]");
+        //sparkConf.setMaster("local[*]");
 
         JavaSparkContext sc = new JavaSparkContext(sparkConf);
 
