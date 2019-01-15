@@ -33,7 +33,7 @@ public class BasicPracticeThree {
         // TODO add your code here
 //        计算相同Key对应的的所有value的平均值，并输出到目录/tmp/output下
         JavaPairRDD<String,SumAndCount> sumAndCouuntRdd = input.groupByKey()
-                .map(x -> {
+                .mapToPair(x -> {
                     Iterator<Integer> iv =  x._2.iterator();
                     Integer sum = 0;
                     Integer count = 0;
@@ -45,6 +45,9 @@ public class BasicPracticeThree {
                     return new Tuple2( x._1, new SumAndCount(sum,count));
                 });
 
+        JavaPairRDD<String,Double> keyAndAvgrdd = sumAndCouuntRdd.mapToPair(x -> new Tuple2<>(x._1,x._2.average()));
+
+        keyAndAvgrdd.saveAsTextFile("/tmp/output");
         jsc.stop();
     }
 }
