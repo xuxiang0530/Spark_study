@@ -5,7 +5,7 @@ import static org.apache.spark.sql.functions.*;
 
 
 public class DataFrameExercise {
-    public static void main(String args[])
+    public static void main(String args[]) throws AnalysisException
     {
         SparkSession spark = SparkSession
                 .builder()
