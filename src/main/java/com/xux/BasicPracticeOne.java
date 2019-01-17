@@ -24,7 +24,6 @@ public class BasicPracticeOne {
 
         input.cache();
 
-
         LongAccumulator sumAccum = jsc.sc().longAccumulator("sum");
         LongAccumulator evenNumbersCountAccum = jsc.sc().longAccumulator("evenNumber");
 
