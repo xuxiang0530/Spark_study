@@ -9,7 +9,7 @@ public class DataFrameExercise {
     {
         SparkSession spark = SparkSession
                 .builder()
-                .master("local")
+                .master("local[*]")
                 .appName("Java Spark SQL data sources example")
                 .getOrCreate();
 
@@ -43,16 +43,29 @@ public class DataFrameExercise {
 //        userDF.groupBy("age").agg(count("gender"),countDistinct("occupation")).show();
         //Dataset<Row> userDF = spark.read().load("/tmp/users.json");
 
-        Dataset<Row> ratingDF = spark.read().parquet("Data/ml-1m/ratings.parquet");
-        ratingDF.write().mode("overwrite").json("Data/ml-1m/ratings.json");
+        //Dataset<Row> ratingDF = spark.read().parquet("Data/ml-1m/ratings.parquet");
+        //ratingDF.write().mode("overwrite").json("/tmp/json/ratings.json");
         //ratingDF
-        //Dataset<Row> ratingDF = spark.read().format("json").load("Data/ml-1m/ratings.json");
+        Dataset<Row> ratingDF = spark.read().format("json").load("Data/ml-1m/ratings.json");
 
-        ratingDF.filter("movieID = 2116")
-                .join(userDF,"userID" )
-                .select("gender", "age")
-                .groupBy("gender", "age")
-                .count()
+//        ratingDF.filter("movieID = 2116")
+//                .join(userDF,"userID" )
+//                .select("gender", "age")
+//                .groupBy("gender", "age")
+//                .count()
+//                .show();
+        userDF.createOrReplaceTempView("users");
+        spark.sql("select gender, age, count(*) as n from users group by gender, age").show();
+
+
+        userDF.createGlobalTempView("tmp_user");
+        spark.sql("SELECT * FROM global_temp.tmp_user").show();
+        spark.newSession().sql("SELECT * FROM global_temp.tmp_user").show();
+
+
+        userDF.groupBy("occupation", "gender")
+                .agg(count("*"))
+                .orderBy("occupation")
                 .show();
 
         spark.stop();
